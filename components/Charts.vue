@@ -76,10 +76,14 @@ const createChartsData = () => {
   for (let i in historyRates.value) {
     let tempArr = [];
     for (let j = 0; j < historyRates.value[i].length; j++) {
-      tempArr.push({
-        num: j,
-        value: historyRates.value[i][j].market_data.current_price.usd.toFixed(2),
-      });
+      if (historyRates.value[i][j].market_data) {
+        tempArr.push({
+          num: j,
+          value: historyRates.value[i][j].market_data.current_price.usd.toFixed(2),
+        });
+      } else {
+        return null;
+      }
     }
     chartData.value[`${i}`] = tempArr;
   }
