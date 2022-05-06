@@ -1,10 +1,4 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
-
 ## Setup
-
-Make sure to install the dependencies:
 
 ```bash
 # yarn
@@ -25,18 +19,8 @@ Start the development server on http://localhost:3000
 npm run dev
 ```
 
-## Production
-
-Build the application for production:
-
+## ToDo
 ```bash
-npm run build
+• resizeObserver
+• charts
 ```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment) for more information.
