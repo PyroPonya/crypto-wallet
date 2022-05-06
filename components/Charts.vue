@@ -1,5 +1,5 @@
 <template>
-  <div class="charts" @contextmenu.prevent="logger">
+  <div class="charts">
     <div class="charts__info charts__element">
       <span class="info__name">name</span>
       <span class="info__id">id</span>
@@ -10,9 +10,10 @@
       <span class="element__name borderLR">{{ item.name }}</span>
       <span class="element__id borderLR">{{ item.symbol }}</span>
       <span class="element__rate borderLR">${{ item.current_price }}</span>
-      <span class="element__chart borderLR"
-        >chart for {{ historyRates[item.symbol].length }} days</span
-      >
+      <span class="element__chart borderLR">
+        chart-placeholder
+        <!-- <SingleChart :chartData="chartData[item.symbol]" /> -->
+      </span>
     </div>
     <div class="exchange">
       <div class="exchange__wallet">
@@ -58,6 +59,7 @@
 </template>
 
 <script setup>
+import SingleChart from './SingleChart.vue';
 const wallet = useWallet(); // users currency
 const historyRates = useHistoryRates(); // hystory data for used currency
 let selectedFrom = ref('');
@@ -68,36 +70,22 @@ const cryptoNames = {
   btc: 'bitcoin',
   eth: 'ethereum',
 };
-const tempHolder = {};
+// === chart setup start ===
+const chartData = ref({});
 const createChartsData = () => {
   for (let i in historyRates.value) {
     let tempArr = [];
     for (let j = 0; j < historyRates.value[i].length; j++) {
-      // console.log(historyRates.value[i][j].market_data.current_price.usd.toFixed(2));
-      tempArr.push(historyRates.value[i][j].market_data.current_price.usd.toFixed(2));
+      tempArr.push({
+        num: j,
+        value: historyRates.value[i][j].market_data.current_price.usd.toFixed(2),
+      });
     }
-    tempHolder[`${i}`] = tempArr;
-    console.log('i');
-    console.log(i);
-    console.log('tempArr');
-    console.log(tempArr);
-    console.log('tempHolder');
-    console.log(tempHolder);
+    chartData.value[`${i}`] = tempArr;
   }
 };
 createChartsData();
-// ======= LOGGER =======
-// const logger = () => {
-//   console.log(historyRates.value);
-//   console.log(historyRates.value.btc);
-//   console.log(
-//     parseFloat(historyRates.value.btc[0].market_data.current_price.usd.toFixed(2))
-//   );
-//   console.log(historyRates.value.eth);
-//   console.log(
-//     parseFloat(historyRates.value.eth[0].market_data.current_price.usd.toFixed(2))
-//   );
-// };
+// === chart setup end ===
 
 // turning one currency into another
 const currExchange = () => {
